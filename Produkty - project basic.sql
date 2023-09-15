@@ -1,18 +1,18 @@
-DROP TABLE IF EXISTS Produkty;
+DROP TABLE IF EXISTS Products;
 
--- Tworzenie tabeli
+-- Creating table
 
-CREATE TABLE Produkty (
+CREATE TABLE Products (
   Lp INTEGER Primary key,
-  Produkt VARCHAR (200) NOT NULL,
-  Ilość INTEGER NOT NULL,
-  Cena INTEGER NOT NULL,
-  Data_zakupu Date
+  Product VARCHAR (200) NOT NULL,
+  Quantity INTEGER NOT NULL,
+  Price INTEGER NOT NULL,
+  Date_of_purchase Date
   );
  
- -- Dodawanie rekordów do tabeli
+ -- Adding values to table
  
- INSERT INTO Produkty (Lp, Produkt, Ilość, Cena) VALUES 
+ INSERT INTO Products (Lp, Product, Quantity, Price) VALUES 
  (1, "Apple", 1, 5),
  (NULL, "Peer", 1, 8),
  (NULL, "Orange", 1, 10),
@@ -31,129 +31,129 @@ CREATE TABLE Produkty (
  (NULL, "Potato", 1, 4),
  (NULL, "Parsley", 1, 2);
 
--- Weryfikacja, czy dodano wszystkie rekordy
+-- Verifying if we have all the records
 
-SELECT * FROM Produkty;
+SELECT * FROM Products;
 
--- Sprawdzenie produktu z maksymalną ceną i 5 pierwszych najdroższych
+-- Product verification with maximum price and top five most expensive products
 
-SELECT Produkt, MAX(Cena) 
-FROM Produkty;
-
-SELECT * 
-FROM Produkty 
-ORDER BY Cena DESC 
-LIMIT 5;
-
--- Sprawdzenie produktu z najmniejszą ceną i 5 pierwszych najtaańszych
-
-SELECT Produkt, MIN(Cena) 
-FROM Produkty;
+SELECT Product, MAX(Price) 
+FROM Products;
 
 SELECT * 
-FROM Produkty 
-ORDER BY Cena ASC 
+FROM Products 
+ORDER BY Price DESC 
 LIMIT 5;
 
--- Usunięcie kolumny Data_zakupu
+-- Checking the product with the lowest price and the first five cheapest
 
-ALTER TABLE Produkty DROP COLUMN Data_zakupu;
+SELECT Product, MIN(Price) 
+FROM Products;
+
+SELECT * 
+FROM Products 
+ORDER BY Price ASC 
+LIMIT 5;
+
+-- Deleting the Date_of_purchase column
+
+ALTER TABLE Products DROP COLUMN Date_of_purchase;
  
--- Dodanie kolumny Jednostka
+-- Adding Unit column
 
-ALTER TABLE Produkty ADD COLUMN Jednostka VARCHAR(100);
+ALTER TABLE Products ADD COLUMN Unit VARCHAR(100);
 
--- Dodanie rekordów do kolumny Jednostka z wykluczeniem produktu Parsley
-UPDATE Produkty 
-SET Jednostka = "kg" 
+-- Adding records to the Unit column excluding Parsley
+UPDATE Products 
+SET Unit = "kg" 
 WHERE NOT Produkt = "Parsley";
 
--- Dodanie kolejnych rekordów
+-- Adding another records
 
-INSERT INTO Produkty VALUES 
+INSERT INTO Products VALUES 
 (NULL, "Garlic", 1, 3, "for piece"),
 (NULL, "Sweet potato", 1, 8, "box"),
 (NULL, "Parsley", 1, 2, "per piece");
 
--- Dodanie kolumny Data_zakupu
+-- Adding Date_of_purchase column
 
-ALTER TABLE Produkty ADD COLUMN Data_zakupu DATE;
+ALTER TABLE Products ADD COLUMN Date_of_purchase DATE;
 
--- Uzupełnienie daty zakupu produktów
+-- Adding the date of purchase of products
 
-UPDATE Produkty SET Data_zakupu = "2023.09.11" 
+UPDATE Products SET Date_of_purchase = "2023.09.11" 
 --WHERE Produkt = "Apple",
 --WHERE Produkt = "Clementines";
 --WHERE Produkt = "Onion";
 --WHERE Produkt = "Red pepper";
 --WHERE Produkt = "Chicken breast";
 --WHERE Produkt = "Beef";
-WHERE Produkt = "Sweet potato";
+WHERE Product = "Sweet potato";
 
-UPDATE Produkty SET Data_zakupu = "2023.09.09" 
+UPDATE Products SET Date_of_purchase = "2023.09.09" 
 --WHERE Produkt = "Peer";
 --WHERE Produkt = "Corn";
 --WHERE Produkt = "Cucumber";
 --WHERE Produkt = "Yellow pepper";
 --WHERE Produkt = "Garlic";
-WHERE Produkt = "Parsley";
+WHERE Product = "Parsley";
 
-UPDATE Produkty SET Data_zakupu = "2023.09.07"
-WHERE Data_zakupu IS NULL;
+UPDATE Products SET Date_of_purchase = "2023.09.07"
+WHERE Date_of_purchase IS NULL;
 
--- Poprawa kilku rekordów o poprawne jednostki zakupu i instrukcji LIKE
+-- Corrected several records with correct purchase units and LIKE statements
 
-UPDATE Produkty 
-SET Jednostka = "per piece" 
-WHERE Produkt = "Corn";
+UPDATE Products 
+SET Unit = "per piece" 
+WHERE Product = "Corn";
 
-UPDATE Produkty 
-SET Jednostka = "per piece" 
-WHERE Jednostka LIKE "for%";
+UPDATE Products 
+SET Unit = "per piece" 
+WHERE Unit LIKE "for%";
 
--- Dodanie kolumny Zakupiono_sztuk
+-- Adding Pieces_purchased column
 
-ALTER TABLE Produkty ADD COLUMN Zakupiono_sztuk INTEGER;
+ALTER TABLE Products ADD COLUMN Pieces_purchased INTEGER;
 
-SELECT * FROM Produkty;
+SELECT * FROM Products;
 
--- Update dnia 2023.09.11
-UPDATE Produkty SET Zakupiono_sztuk = 2 WHERE Data_zakupu = "2023.09.11" AND Produkt = "Apple";
-UPDATE Produkty SET Zakupiono_sztuk = 3 WHERE Data_zakupu = "2023.09.11" AND Produkt = "Onion";
-UPDATE Produkty SET Zakupiono_sztuk = 1 WHERE Data_zakupu = "2023.09.11" AND Produkt = "Red pepper";
-UPDATE Produkty SET Zakupiono_sztuk = 1.5 WHERE Data_zakupu = "2023.09.11" AND Produkt = "Chicken breast";
-UPDATE Produkty SET Zakupiono_sztuk = 0.5 WHERE Data_zakupu = "2023.09.11" AND Produkt = "Beef";
-UPDATE Produkty SET Zakupiono_sztuk = 2 WHERE Data_zakupu = "2023.09.11" AND Produkt = "Apple";
-UPDATE Produkty SET Zakupiono_sztuk = 3 WHERE Data_zakupu = "2023.09.11" AND Produkt = "Sweet potato";
-UPDATE Produkty SET Zakupiono_sztuk = 4 WHERE Data_zakupu = "2023.09.11" AND Produkt = "Clementines";
+-- Update day of 2023.09.11
+UPDATE Products SET Pieces_purchased = 2 WHERE Date_of_purchase = "2023.09.11" AND Produkt = "Apple";
+UPDATE Products SET Pieces_purchased = 3 WHERE Date_of_purchase = "2023.09.11" AND Produkt = "Onion";
+UPDATE Products SET Pieces_purchased = 1 WHERE Date_of_purchase = "2023.09.11" AND Produkt = "Red pepper";
+UPDATE Products SET Pieces_purchased = 1.5 WHERE Date_of_purchase = "2023.09.11" AND Produkt = "Chicken breast";
+UPDATE Products SET Pieces_purchased = 0.5 WHERE Date_of_purchase = "2023.09.11" AND Produkt = "Beef";
+UPDATE Products SET Pieces_purchased = 2 WHERE Date_of_purchase = "2023.09.11" AND Produkt = "Apple";
+UPDATE Products SET Pieces_purchased = 3 WHERE Date_of_purchase = "2023.09.11" AND Produkt = "Sweet potato";
+UPDATE Products SET Pieces_purchased = 4 WHERE Date_of_purchase = "2023.09.11" AND Produkt = "Clementines";
 
--- Update dnia 2023.09.09
-UPDATE Produkty SET Zakupiono_sztuk = 2 WHERE Data_zakupu = "2023.09.09" AND Produkt = "Peer";
-UPDATE Produkty SET Zakupiono_sztuk = 5 WHERE Data_zakupu = "2023.09.09" AND Produkt = "Corn";
-UPDATE Produkty SET Zakupiono_sztuk = 3 WHERE Data_zakupu = "2023.09.09" AND Produkt = "Cucumber";
-UPDATE Produkty SET Zakupiono_sztuk = 5 WHERE Data_zakupu = "2023.09.09" AND Produkt = "Yellow pepper";
-UPDATE Produkty SET Zakupiono_sztuk = 2 WHERE Data_zakupu = "2023.09.09" AND Produkt = "Garlic";
-UPDATE Produkty SET Zakupiono_sztuk = 3 WHERE Data_zakupu = "2023.09.09" AND Produkt = "Parsley";
+-- Update day of 2023.09.09
+UPDATE Products SET Pieces_purchased = 2 WHERE Date_of_purchase = "2023.09.09" AND Produkt = "Peer";
+UPDATE Products SET Pieces_purchased = 5 WHERE Date_of_purchase = "2023.09.09" AND Produkt = "Corn";
+UPDATE Products SET Pieces_purchased = 3 WHERE Date_of_purchase = "2023.09.09" AND Produkt = "Cucumber";
+UPDATE Products SET Pieces_purchased = 5 WHERE Date_of_purchase = "2023.09.09" AND Produkt = "Yellow pepper";
+UPDATE Products SET Pieces_purchased = 2 WHERE Date_of_purchase = "2023.09.09" AND Produkt = "Garlic";
+UPDATE Products SET Pieces_purchased = 3 WHERE Date_of_purchase = "2023.09.09" AND Produkt = "Parsley";
 
--- Update dnia 2023.09.07
-UPDATE Produkty SET Zakupiono_sztuk = 5 WHERE Data_zakupu = "2023.09.07" AND Produkt = "Orange";
-UPDATE Produkty SET Zakupiono_sztuk = 5 WHERE Data_zakupu = "2023.09.07" AND Produkt = "Tomato";
-UPDATE Produkty SET Zakupiono_sztuk = 4 WHERE Data_zakupu = "2023.09.07" AND Produkt = "Red onion";
-UPDATE Produkty SET Zakupiono_sztuk = 2 WHERE Data_zakupu = "2023.09.07" AND Produkt = "Orange";
-UPDATE Produkty SET Zakupiono_sztuk = 3 WHERE Data_zakupu = "2023.09.07" AND Produkt = "Green pepper";
-UPDATE Produkty SET Zakupiono_sztuk = 1.5 WHERE Data_zakupu = "2023.09.07" AND Produkt = "Chicken drumsticks";
-UPDATE Produkty SET Zakupiono_sztuk = 6 WHERE Data_zakupu = "2023.09.07" AND Produkt = "Potato";
+-- Update day of 2023.09.07
+UPDATE Products SET Pieces_purchased = 5 WHERE Date_of_purchase = "2023.09.07" AND Produkt = "Orange";
+UPDATE Products SET Pieces_purchased = 5 WHERE Date_of_purchase = "2023.09.07" AND Produkt = "Tomato";
+UPDATE Products SET Pieces_purchased = 4 WHERE Date_of_purchase = "2023.09.07" AND Produkt = "Red onion";
+UPDATE Products SET Pieces_purchased = 2 WHERE Date_of_purchase = "2023.09.07" AND Produkt = "Orange";
+UPDATE Products SET Pieces_purchased = 3 WHERE Date_of_purchase = "2023.09.07" AND Produkt = "Green pepper";
+UPDATE Products SET Pieces_purchased = 1.5 WHERE Date_of_purchase = "2023.09.07" AND Produkt = "Chicken drumsticks";
+UPDATE Products SET Pieces_purchased = 6 WHERE Date_of_purchase = "2023.09.07" AND Produkt = "Potato";
 
-SELECT * FROM Produkty;
+SELECT * FROM Products;
 
--- Weryfikacja, ile kosztował zakup każdego z produktów, z wykorzystaniem mnożenia
-SELECT Produkt, (Cena * Zakupiono_sztuk) AS Kwota_zakupu, Zakupiono_sztuk
-FROM Produkty
+-- WVerification of how much the purchase of each product cost using multiplication
+SELECT Product, (Price * Pieces_purchased) AS Purchase_amount, Pieces_purchased
+FROM Products
 
--- Ile wydano danego dnia?
-SELECT Data_zakupu, SUM(Cena*Zakupiono_sztuk) AS Wydana_kwota
-FROM Produkty
-GROUP BY Data_zakupu
-ORDER BY Data_zakupu ASC
+-- How much was spent that day?
+SELECT Date_of_purchase, SUM(Price*Pieces_purchased) AS Amount_spend
+FROM Products
+GROUP BY Date_of_purchase
+ORDER BY Date_of_purchase ASC
 
-SELECT * FROM Produkty;
+SELECT * FROM Products;
